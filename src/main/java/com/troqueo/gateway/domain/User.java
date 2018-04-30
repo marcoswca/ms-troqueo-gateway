@@ -87,7 +87,7 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @JsonIgnore
     private Set<Authority> authorities = new HashSet<>();
 
-    public String getId() {
+    public String get_id() {
         return id;
     }
 
@@ -218,12 +218,12 @@ public class User extends AbstractAuditingEntity implements Serializable {
         }
 
         User user = (User) o;
-        return !(user.getId() == null || getId() == null) && Objects.equals(getId(), user.getId());
+        return !(user.get_id() == null || get_id() == null) && Objects.equals(get_id(), user.get_id());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(getId());
+        return Objects.hashCode(get_id());
     }
 
     @Override

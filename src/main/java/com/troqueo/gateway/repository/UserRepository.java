@@ -23,6 +23,8 @@ public interface UserRepository extends MongoRepository<User, String> {
 
     Optional<User> findOneByActivationKey(String activationKey);
 
+    Optional<User> findOneById(String id);
+
     List<User> findAllByActivatedIsFalseAndCreatedDateBefore(Instant dateTime);
 
     Optional<User> findOneByResetKey(String resetKey);

@@ -23,6 +23,7 @@ public class TokenProvider {
     private final Logger log = LoggerFactory.getLogger(TokenProvider.class);
 
     private static final String AUTHORITIES_KEY = "auth";
+    private static final String USER = "user";
 
     private String secretKey;
 
@@ -61,7 +62,6 @@ public class TokenProvider {
         }
 
         return Jwts.builder()
-            .setId(authentication)
             .setSubject(authentication.getName())
             .claim(AUTHORITIES_KEY, authorities)
             .signWith(SignatureAlgorithm.HS512, secretKey)

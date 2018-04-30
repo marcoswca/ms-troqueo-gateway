@@ -62,7 +62,7 @@ public class UserDTO {
     }
 
     public UserDTO(User user) {
-        this.id = user.getId();
+        this.id = user.get_id();
         this.login = user.getLogin();
         this.firstName = user.getFirstName();
         this.lastName = user.getLastName();
@@ -81,7 +81,7 @@ public class UserDTO {
         this.cnpj = user.getCnpj();
     }
 
-    public String getId() {
+    public String get_id() {
         return id;
     }
 

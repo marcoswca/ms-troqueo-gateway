@@ -91,7 +91,7 @@ public class UserResource {
     public ResponseEntity<User> createUser(@Valid @RequestBody UserDTO userDTO) throws URISyntaxException {
         log.debug("REST request to save User : {}", userDTO);
 
-        if (userDTO.getId() != null) {
+        if (userDTO.get_id() != null) {
             throw new BadRequestAlertException("A new user cannot already have an ID", "userManagement", "idexists");
             // Lowercase the user login before comparing with database
         } else if (userRepository.findOneByLogin(userDTO.getLogin().toLowerCase()).isPresent()) {
@@ -121,11 +121,11 @@ public class UserResource {
     public ResponseEntity<UserDTO> updateUser(@Valid @RequestBody UserDTO userDTO) {
         log.debug("REST request to update User : {}", userDTO);
         Optional<User> existingUser = userRepository.findOneByEmailIgnoreCase(userDTO.getEmail());
-        if (existingUser.isPresent() && (!existingUser.get().getId().equals(userDTO.getId()))) {
+        if (existingUser.isPresent() && (!existingUser.get().get_id().equals(userDTO.get_id()))) {
             throw new EmailAlreadyUsedException();
         }
         existingUser = userRepository.findOneByLogin(userDTO.getLogin().toLowerCase());
-        if (existingUser.isPresent() && (!existingUser.get().getId().equals(userDTO.getId()))) {
+        if (existingUser.isPresent() && (!existingUser.get().get_id().equals(userDTO.get_id()))) {
             throw new LoginAlreadyUsedException();
         }
         Optional<UserDTO> updatedUser = userService.updateUser(userDTO);
@@ -171,6 +171,21 @@ public class UserResource {
         return ResponseUtil.wrapOrNotFound(
             userService.getUserWithAuthoritiesByLogin(login)
                 .map(UserDTO::new));
+    }
+
+    /**
+     * GET /users/:id : get the "id" user.
+     *
+     * @param id the id of the user to find
+     * @return the ResponseEntity with status 200 (OK) and with body the "id" user, or with status 404 (Not Found)
+     */
+    @GetMapping("/users/{id}")
+    @Timed
+    public ResponseEntity<UserDTO> getUserById(@PathVariable String id) {
+        log.debug("REST request to get User : {}", id);
+        return ResponseUtil.wrapOrNotFound(
+            userService.getUserWithAuthoritiesById(id).map(UserDTO::new)
+        );
     }
 
     /**

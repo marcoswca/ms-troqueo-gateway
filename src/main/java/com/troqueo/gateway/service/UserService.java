@@ -182,7 +182,7 @@ public class UserService {
      */
     public Optional<UserDTO> updateUser(UserDTO userDTO) {
         return Optional.of(userRepository
-            .findOne(userDTO.getId()))
+            .findOne(userDTO.get_id()))
             .map(user -> {
                 user.setLogin(userDTO.getLogin());
                 user.setFirstName(userDTO.getFirstName());
@@ -233,6 +233,10 @@ public class UserService {
 
     public Optional<User> getUserWithAuthoritiesByLogin(String login) {
         return userRepository.findOneByLogin(login);
+    }
+
+    public Optional<User> getUserWithAuthoritiesById(String id) {
+        return userRepository.findOneById(id);
     }
 
     public Optional<User> getUserWithAuthorities(String id) {
